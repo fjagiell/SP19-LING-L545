@@ -3,10 +3,11 @@ DELIMITERS="." ;
 SETS
 
 LIST POS = ADJ ADP ADV AUX CCONJ DET INTJ NOUN PART PRON PROPN PUNCT SCONJ VERB X ;
-LIST NOMINAL = NOUN PRON PROPN ;
+LIST NOMINAL = NOUN PRON PROPN NUM ;
 LIST NOMINATIVE = Case=Nom ;
 LIST MASC = Gender=Masc ;
 LIST FEM = Gender=Fem ;
+LIST NEUT = Gender=Neut ;
 LIST PART = PART ;
 LIST CCONJ = CCONJ ;
 LIST PUNCT = PUNCT ;
@@ -25,32 +26,81 @@ LIST DET = DET ;
 LIST NOUN = NOUN ;
 LIST GEN =  Case=Gen ; 
 LIST ACC = Case=Acc ; 
-
+LIST ABR  = Abbr=Yes ;
+LIST X = X ;
+LIST IND = Definite=Ind ;
+LIST NUMBER = NUM ;
+LIST vienas = "vienas" ;
+LIST GEO = NameType=Geo ;
+LIST ADP = ADP ;
+LIST NEG = Polarity=Neg ;
+LIST PRS = PronType=Prs ;
+LIST INF = VerbForm=Inf ;
+LIST AUX = AUX ;
+LIST VERBAL = VERB AUX ;
 
 SET CASE = NOM | INS | GEN | ACC ; 
 SET PLURALITY = SING | PLUR ;
-SET GENDER = MASC | FEM ;
+SET GENDER = MASC | FEM | NEUT ;
 SET NUM = SING | PLUR ;
+SET COORD = ADJ | ADV | NOMINAL | VERB ;
 
 SECTION
 
-REMOVE:r1 MASC IF (1C FEM) ; 
+REMOVE:r1 MASC + $$CASE IF (1C FEM + $$CASE) ; 
 REMOVE:r2 FEM IF (1C MASC) ; 
-REMOVE:r3 CCONJ IF (-1 PUNCT) ; 
+REMOVE:r3 CCONJ IF (-1 PUNCT) ; #maybe a bad rule that should go baznyciomis_V1#22
 REMOVE:r4 PART IF (-1 NOMINAL) ;
 REMOVE:r5 PART IF (1C ADJ) ; 
 REMOVE:r6 SING IF (-1C PLUR) (-1C $$GENDER) (0 $$GENDER) ; 
 REMOVE:r7 PLUR IF (-1C SING) (-1C $$GENDER) (0 $$GENDER) ;
 REMOVE:r8 CCONJ IF (-1 >>>) ;
 REMOVE:r9 PART IF (-1C PART) ;
-REMOVE:10 CCONJ IF (-1C CCONJ) ;
+REMOVE:r10 CCONJ IF (-1C CCONJ) ;
+REMOVE:r10a CCONJ IF (1C CCONJ) ;
 REMOVE:r11 ADV IF (1C NOMINAL) ;
 REMOVE:r12 SCONJ IF (-1C SCONJ) ;
-REMOVE:r13 $$PLURALITY IF (NOT *-1 $$PLURALITY); #"<nėra>" AMvadovu_V1-s12
+REMOVE:r13 $$PLURALITY IF (NOT *-1 $$PLURALITY) (-1C PUNCT) ; #"<nėra>" AMvadovu_V1-s12
+REMOVE:r14a FEM IF (NOT *-1 FEM) (NOT *1 FEM) ; #biudzetas_V1-s24 "tai"
+REMOVE:r14 MASC IF (NOT *-1 MASC) (NOT *1 MASC) ; #balandzio_V1-s19 ju, feminine word turned out to be in sentence but leave rule anyway
+REMOVE:r15 VERB IF (1C VERB) ; #baznyciomis_V1-s2 "<kuria>"
+"<jos>" REMOVE:r16 NOM IF (1C NOUN) ; #baznyciomis_V1-s7
+"<Jos>" REMOVE:r16a NOM IF (1C NOUN) ; #baznyciomis_V1-s16
+REMOVE:r17 PART IF (1 NUMBER) (2 NOMINAL) ; #baznyciomis_V1-s7
+REMOVE:r18 PART IF (-1 ADP) ; #baznyciomis_V1-s11 beveik
 
 SELECT:s1 DET + $$CASE IF (1C NOUN + $$CASE) ; # select case of following noun for det
-SELECT:s2 NOMINATIVE IF (1C NOMINATIVE) ; #AMvadovu_V1-s6 output for select bizarre
-SELECT:s3 SCONJ IF (1C VERB) ;
+SELECT:s1a GEN IF (1 NOMINATIVE) (NOT *-1C VERB); #baznyciomis_V1-s24 added not verb after biudzetas_V1-s18
+SELECT:s2 NOMINATIVE IF (1C NOMINATIVE); #AMvadovu_V1-s6 output for select bizarre
+SELECT:s3 SCONJ IF (1C VERB) (NOT 0 ADV);
+SELECT:s4a GEN IF (-1C ADP) ;
 #SELECT:s4 SING IF (-1C SING) ;
 SELECT:s5 PART IF (-1 VERB) (-2 >>>) ;
-SELECT:s6 SING IF (NOT 0 PLUR) ; #"<nėra>" AMvadovu_V1-s12
+SELECT:s6 SING IF (NOT 0 PLUR) ; #"<nėra>" AMvadovu_V1-s12 maybe remove due to baznyciomis_V1-s26
+SELECT:s7 X IF (0 ABR) ; #SMKK AMvadovu_V1-s8
+SELECT:s8 $$PLURALITY IF (-1C $$PLURALITY) (1C $$PLURALITY) ; #nustatys AMvadovu_V1-s9
+# SELECT:s9 IND IF (0 NUM); #number auto indefinite makes incorrect for AMvadovu_V1-s14
+SELECT:s10 $$PLURALITY IF (0C VERB) (*-1 NOM + $$PLURALITY) ; #nustatys AMvadovu_V1-s16
+"<Europos>" SELECT:s11 GEO ;
+SELECT:s11 NOMINATIVE IF (-1 GEN) (NOT 1 NOMINAL) ; #baznycia balandzio_V1-s6
+SELECT:s12 NOMINATIVE IF (*1C VERB BARRIER PUNCT) ; #du balandzio_V1-s14
+SELECT:s13 $$GENDER IF (1 PUNCT) (2 $$GENDER) ; #balandzio_V1-s19 ju
+SELECT:s14 NOMINAL + GEN IF (*-1 VERB + NEG) ; #PracGramofLith page 45 negative genitive obj added nominal after biudzetas_V1-s25 i ADP
+SELECT:s15 GEN IF (1C NOUN + ACC) (0 NOUN); #baznyciomis_V1-s11 vienuolijos
+SELECT:s16 NOM IF (-1C >>>) (1C PUNCT) ; #baznyciomis_V1-s15 bazncia
+"<ir>" SELECT:s17 PART IF (-1 ADV) (1 VERB) ; #baznyciomis_V1-s18
+"<jie>" SELECT:s18 PRS IF (1C VERB) (0 NOM) ; #baznyciomis_V1-s19 jie
+SELECT:s19 SCONJ IF (-1 PUNCT) (1 NOMINAL) ; # ''s22 kad
+SELECT:s20 SCONJ IF (-1 PUNCT) (1 ADV) ;#earlier sentence vadovu6?
+SELECT:s20a SCONJ IF (-1 PUNCT) (1 ADP) ;#kad biudzetas s5
+SELECT:s21 INF IF (-1C VERB) ;
+SELECT:s22 SCONJ IF (-1 >>>) (1 NOMINAL) ; # biudzetas s3 kad
+SELECT:s23 SCONJ IF (-1 >>>) (1 ADV) ;#       ''
+SELECT:s23a SCONJ IF (-1 >>>) (1 ADP) ;#biudzetas s5 kad
+"<yra>" SELECT:s24 $$PLURALITY IF (1* VERB + $$PLURALITY BARRIER PUNCT) ; #biudzetas_V1-s3 buti
+SELECT:s25 VERBAL + $$PLURALITY IF (1 NOMINATIVE + $$PLURALITY); #biudzetas_V1-s18 "<kyla>"
+SELECT:s26 PLUR IF (-1 NUMBER) (NOT -1 vienas) ; #biudzetas_V1-s26 "<pusės>"
+SELECT:s26a SING IF (-1 vienas) ;
+SELECT:s27 NUMBER + $$GENDER IF (1 NOMINAL + $$GENDER) ; #biudzetas_V1-s26 "<pusės>"
+SELECT:s28 NUMBER + NOMINATIVE IF (1 PUNCT) ; #"<du>" biudzetas_V1-s29
+"<ir>" SELECT:s29 CCONJ IF (-1 $$COORD) (1 $$COORD) ; #biudzetas_V1-s30
