@@ -49,7 +49,7 @@ SECTION
 
 REMOVE:r1 MASC + $$CASE IF (1C FEM + $$CASE) ; 
 REMOVE:r2 FEM IF (1C MASC) ; 
-REMOVE:r3 CCONJ IF (-1 PUNCT) ; #maybe a bad rule that should go baznyciomis_V1#22
+# had bad rating REMOVE:r3 CCONJ IF (-1 PUNCT) ; #maybe a bad rule that should go baznyciomis_V1#22
 REMOVE:r4 PART IF (-1 NOMINAL) ;
 REMOVE:r5 PART IF (1C ADJ) ; 
 REMOVE:r6 SING IF (-1C PLUR) (-1C $$GENDER) (0 $$GENDER) ; 
@@ -76,7 +76,7 @@ SELECT:s3 SCONJ IF (1C VERB) (NOT 0 ADV);
 SELECT:s4a GEN IF (-1C ADP) ;
 #SELECT:s4 SING IF (-1C SING) ;
 SELECT:s5 PART IF (-1 VERB) (-2 >>>) ;
-SELECT:s6 SING IF (NOT 0 PLUR) ; #"<nėra>" AMvadovu_V1-s12 maybe remove due to baznyciomis_V1-s26
+#not good resulsSELECT:s6 SING IF (NOT 0 PLUR) ; #"<nėra>" AMvadovu_V1-s12 maybe remove due to baznyciomis_V1-s26
 SELECT:s7 X IF (0 ABR) ; #SMKK AMvadovu_V1-s8
 SELECT:s8 $$PLURALITY IF (-1C $$PLURALITY) (1C $$PLURALITY) ; #nustatys AMvadovu_V1-s9
 # SELECT:s9 IND IF (0 NUM); #number auto indefinite makes incorrect for AMvadovu_V1-s14
