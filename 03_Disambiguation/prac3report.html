@@ -1,0 +1,62 @@
+<h1> L-545 Practical 3 Report of Trey Jagiella </h1>
+
+<h2> Tagger Comparison </h2> 
+
+<p> The two taggers I compared were UDPipe and a simple perceptron-based tagger. 
+
+UDPipe can be found <a 
+
+href="https://github.com/ufal/udpipe">here</a>.
+
+UDPipe is a trainable pipeline for tokenizing, tagging, lemmatizing and parsing Universal Treebanks and other CoNLL-U files.
+
+The perceptron-based tagger can be found <a
+href="https://github.com/ftyers/conllu-perceptron-tagger">here</a> . It is designed to work with CoNLL-U files and is meant to serve as a teaching aid. </p>
+
+<h3>Perceptron Accuracy:</h3> 
+<pre>
+Metrics    | Precision |    Recall |  F1 Score | AligndAcc 
+
+-----------+-----------+-----------+-----------+----------- 
+
+UPOS       |     90.28 |     90.28 |     90.28 |     90.28 
+</pre>
+<h3> UDPipe Accuracy: </h3> 
+<pre>
+Metrics    | Precision |    Recall |  F1 Score | AligndAcc 
+
+-----------+-----------+-----------+-----------+----------- 
+
+UPOS       |     94.64 |     94.64 |     94.64 |     94.64 
+</pre>
+The UPOS was more accurate for the UDPipe than for the Perceptron-based tagger by over four percent.  
+
+<h2>Constraint Grammar</h2> 
+
+Please see the files related to the constraint grammar on GitHub.
+
+<h2>Improve perceptron tagger</h2> 
+
+<h3>Beginning dev Portuguese accuracy:</h3> 
+<pre>
+Metrics    | Precision |    Recall |  F1 Score | AligndAcc 
+
+-----------+-----------+-----------+-----------+----------- 
+
+UPOS       |     96.62 |     96.62 |     96.62 |     96.62 
+</pre>
+<h3>Changed dev results:</h3> 
+<pre>
+Metrics    | Precision |    Recall |  F1 Score | AligndAcc 
+
+-----------+-----------+-----------+-----------+----------- 
+
+UPOS       |     92.05 |     92.05 |     92.05 |     92.05 
+</pre>
+Unfortunately, nothing I tried increased the accuracy of the tagger.
+
+The things I changed however, did each have a relatively minimal effect.
+
+The changes I made were in ‘i suffix’, ‘i-1 suffix’, and ‘i+1 suffix’. Additionally, I changed word[-3:] to word[-4:] and in 'i-1 tag+i word', I changed context[i] to context[i-1].
+I did try going further, replacing the -3 in word[-3:] with a positive number, commenting out certain features, and replacing the other indices which were unchanged in my final version.
+However, these changes either has a much larger negative effect on the accuracy or simply did work and returned an index error.  

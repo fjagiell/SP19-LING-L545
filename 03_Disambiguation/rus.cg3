@@ -1,0 +1,22 @@
+DELIMITERS = "." ;
+
+LIST DET = DET ;
+LIST PUNCT = PUNCT ;
+LIST NOM =  Case=Nom ;
+LIST GEN = Case=Gen ;
+LIST ACC = Case=Acc ;
+LIST LOC = Case=Loc ;
+LIST NOUN = NOUN ;
+
+
+SET CASE = NOM | GEN | ACC | LOC ;
+
+SECTION
+
+#instructed rule
+REMOVE DET IF (1C PUNCT) ;
+
+#added rules
+REMOVE NOM IF (1C PUNCT) ;
+SELECT $$CASE IF (1C $$CASE) ;
+SELECT NOM IF (NOT *-1 NOUN) ;
