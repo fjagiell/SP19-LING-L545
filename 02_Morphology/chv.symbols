@@ -1,0 +1,16 @@
+Multichar_Symbols
+
+%<n%>                ! noun
+%<pl%> ! plural
+%<nom%> ! Nomintative
+%<ins%> ! Instrumental
+%<gen%> ! genitive
+%<der_лӑх%> !derivational suffix 
+
+%{A%} ! archiphoneme [a] or [e]
+
+%{Ă%} ! archiphoneme [ӑ] or [ӗ]
+
+%{м%} ! archiphoneme [м]
+
+%> ! morpheme boundary
