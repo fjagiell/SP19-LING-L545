@@ -1,0 +1,33 @@
+<h1> L-545 Practical Report of Trey Jagiella</h1>
+
+<h2>Train, parse and evaluate using UDPipe</h2> 
+<pre>
+Metrics    | Precision |    Recall |  F1 Score | AligndAcc 
+
+-----------+-----------+-----------+-----------+----------- 
+
+UAS        |     95.75 |     95.75 |     95.75 |     95.75 
+
+LAS        |     95.17 |     95.17 |     95.17 |     95.17 
+</pre>
+<p>In the first sentence, “cela signifie que leur consommation énergétique, qui représente actuellement 10% de la consommation énergétique moyenne de l'UE, enregistrera une forte augmentation à mesure qu'ils exigeront des commodités élémentaires comme l'eau chaude et, peut-être même, l'air conditionné, des moyens de transport et la modernisation de leurs industries.”, 
+the same mistake was made twice for the tokens “moyens” and “modernisation”. Both are originally stated as depending on 36 “eau” but the UDPipe had them depending on 2 “signifie”, the root of the sentence.
+This could not be the case since “moyens” and “modernisation” are found in a subordinate clause.</p> 
+
+<p>In the second sentence, “Nous avons noté que la production d'électricité correspond à 30% des émissions de CO2 imputables à l'homme.”,
+The word homme depends on 18, “imputables” but UDPipe marked it as depending on 15, “émissions.”
+Additionally, the relationship was incorrectly marked as nmod when it is an obl:arg. </p> 
+
+<p>Of the ten trees inspected, six of them had errors and there was a total of 19 tokens with errors among the 312 found in the ten trees.
+Of the 19, all but two were assigned to depend on the wrong word.
+Frequently, this word was a verb serving as the root of the sentence which the token did not directly depend on.
+This can be seen in the first sentence, where both incorrect tokens were assigned to rely on the root of the sentence despite being nouns found in subordinate clauses. </p>
+
+<p>12 of the 19 were assigned the incorrect relation with the word it was assigned to depend on.
+Two of these were assigned the correct word and only had an incorrect relation.
+A common mistake in assigning the role was that the original test file used the relationship fixed and the UDPipe assigned the role to be a determiner.
+Additionally, it had trouble assigning oblique roles, often mistaking them for nmod.
+The role of case was also mistakenly assigned several times. </p>
+
+<h2> Relative word order study </h2>
+Please see the relevant files on GitHub.

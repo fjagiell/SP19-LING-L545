@@ -1,0 +1,39 @@
+1. French-Sequoia
+verb-obj: 0.8121452894438138
+obj-verb: 0.18785471055618616
+
+2. Japanese-GSD
+verb-obj: 0.0
+obj-verb: 1.0
+
+3. Russian-SynTagRus
+verb-obj: 0.7587289132993331
+obj-verb: 0.24127108670066694
+
+4.Finnish-TDT
+verb-obj: 0.6178592318190681
+obj-verb: 0.38214076818093196
+
+5. Portuguese-GSD
+verb-obj: 0.9082737708468702
+obj-verb: 0.09172622915312974
+
+6. Lithuanian-ALKSNIS
+verb-obj: 0.6201413427561837
+obj-verb: 0.37985865724381623
+
+7. English-ParTUT
+verb-obj: 0.9555674518201285
+obj-verb: 0.04443254817987152
+
+8. Irish-IDT
+verb-obj: 0.5646817248459959
+obj-verb: 0.4353182751540041
+
+9. Italian-ParTUT
+verb-obj: 0.8876947877485223
+obj-verb: 0.1123052122514777
+
+10. German-GSD
+verb-obj: 0.5301062573789846
+obj-verb: 0.46989374262101535 

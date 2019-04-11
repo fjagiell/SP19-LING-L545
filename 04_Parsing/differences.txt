@@ -1,0 +1,57 @@
+Difference 1
+Original: 48	moyens	moyen	NOUN	_	Gender=Masc|Number=Plur	36	conj	_	_
+testout: 48	moyens	moyen	NOUN	_	Gender=Masc|Number=Plur	2	conj	_	_
+Difference 2
+Original: 53	modernisation	modernisation	NOUN	_	Gender=Fem|Number=Sing	36	conj	_	_
+testout: 53	modernisation	modernisation	NOUN	_	Gender=Fem|Number=Sing	2	conj	_	_
+Difference 3
+Original: 21	homme	homme	NOUN	_	Gender=Masc|Number=Sing	18	obl:arg	_	SpaceAfter=No
+testout: 21	homme	homme	NOUN	_	Gender=Masc|Number=Sing	15	nmod	_	SpaceAfter=No
+Difference 4
+Original: 13	en	en	ADP	_	_	12	obl:arg	_	MWE=en_vigueur|MWEPOS=ADV
+testout: 13	en	en	ADP	_	_	17	case	_	MWE=en_vigueur|MWEPOS=ADV
+Difference 5
+Original: 15	à	à	ADP	_	_	17	case	_	_
+testout: 15	à	à	ADP	_	_	13	fixed	_	_
+Difference 6
+Original: 21	Millenium	Millenium	X	_	_	20	flat:foreign	_	_
+testout: 21	Millenium	Millenium	X	_	_	12	punct	_	_
+Difference 7
+Original: 22	Corporate	Corporate	X	_	_	20	flat:foreign	_	_
+testout: 22	Corporate	Corporate	X	_	_	12	conj	_	_
+Difference 8
+Original: 23	Act	Act	X	_	_	20	flat:foreign	_	_
+testout: 23	Act	Act	X	_	_	22	flat:foreign	_	_
+Difference 9
+Original: 29	permis	permettre	VERB	_	Gender=Masc|Tense=Past|VerbForm=Part	12	conj	_	_
+testout: 29	permis	permettre	VERB	_	Gender=Masc|Tense=Past|VerbForm=Part	23	conj	_	_
+Difference 10
+Original: 15	bien	bien	ADV	_	_	16	advmod	_	_
+testout: 15	bien	bien	ADV	_	_	5	advmod	_	_
+Difference 11
+Original: 16	à	à	ADP	_	_	5	advmod	_	MWE=au_contraire|MWEPOS=ADV
+testout: 16	à	à	ADP	_	_	18	case	_	MWE=au_contraire|MWEPOS=ADV
+Difference 12
+Original: 17	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	16	fixed	_	_
+testout: 17	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	18	det	_	_
+Difference 13
+Original: 18	contraire	contraire	NOUN	_	Gender=Masc|Number=Sing	16	fixed	_	SpaceAfter=No
+testout: 18	contraire	contraire	NOUN	_	Gender=Masc|Number=Sing	5	obl:arg	_	SpaceAfter=No
+Difference 14
+Original: 16	de	de	ADP	_	_	18	det	_	MWE=du|MWEPOS=DET
+testout: 16	de	de	ADP	_	_	18	case	_	MWE=du|MWEPOS=DET
+Difference 15
+Original: 17	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	16	fixed	_	_
+testout: 17	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	18	det	_	_
+Difference 16
+Original: 21	modalités	modalité	NOUN	_	Gender=Fem|Number=Plur	15	obl:mod	_	_
+testout: 21	modalités	modalité	NOUN	_	Gender=Fem|Number=Plur	18	nmod	_	_
+Difference 17
+Original: 11	rapport	rapport	NOUN	_	Gender=Masc|Number=Sing	6	obl:arg	_	_
+testout: 11	rapport	rapport	NOUN	_	Gender=Masc|Number=Sing	6	fixed	_	_
+Difference 18
+Original: 17	initiative	initiative	NOUN	_	Gender=Fem|Number=Sing	11	nmod	_	_
+testout: 17	initiative	initiative	NOUN	_	Gender=Fem|Number=Sing	6	nmod	_	_
+Difference 19
+Original: 47	initiatives	initiative	NOUN	_	Gender=Fem|Number=Plur	37	nmod	_	_
+testout: 47	initiatives	initiative	NOUN	_	Gender=Fem|Number=Plur	44	nmod	_	_
