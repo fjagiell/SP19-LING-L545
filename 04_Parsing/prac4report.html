@@ -27,7 +27,11 @@ This can be seen in the first sentence, where both incorrect tokens were assigne
 Two of these were assigned the correct word and only had an incorrect relation.
 A common mistake in assigning the role was that the original test file used the relationship fixed and the UDPipe assigned the role to be a determiner.
 Additionally, it had trouble assigning oblique roles, often mistaking them for nmod.
-The role of case was also mistakenly assigned several times. </p>
+The role of case was also mistakenly assigned several times. <br>
+These differences were found using the diff.py program. The differences in found between the UDPipe and the original file can be found in the file differences.txt.</p>
 
 <h2> Relative word order study </h2>
-Please see the relevant files on GitHub.
+The file VOOV.py determines whether a sentence is VO or OV and outputs a
+proportion of each. The file VOOVprops.txt was used for me to keep track of each
+proportion. VOOVplot.py generates a plot based on the proportions found in VOOV.py.
+VOOV.png is the output file of the VOOVplot.py.

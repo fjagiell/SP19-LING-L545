@@ -9,9 +9,11 @@ UDPipe can be found <a
 href="https://github.com/ufal/udpipe">here</a>.
 
 UDPipe is a trainable pipeline for tokenizing, tagging, lemmatizing and parsing Universal Treebanks and other CoNLL-U files.
+The output of UDPipe is the fi_tdt-ud-test_output.conllu file. The accuracy is found in the CONLL2017output.txt file.
 
 The perceptron-based tagger can be found <a
 href="https://github.com/ftyers/conllu-perceptron-tagger">here</a> . It is designed to work with CoNLL-U files and is meant to serve as a teaching aid. </p>
+The output of the perceptron-based tagger is the fi-ud-test.out file. The accuracy is found in the perceptronoutput.txt file.
 
 <h3>Perceptron Accuracy:</h3> 
 <pre>
@@ -33,7 +35,7 @@ The UPOS was more accurate for the UDPipe than for the Perceptron-based tagger b
 
 <h2>Constraint Grammar</h2> 
 
-Please see the files related to the constraint grammar on GitHub.
+rus.cg3 is the rule file. The ru-analyser.tsv is the list of different possible lemmas for each wordform.
 
 <h2>Improve perceptron tagger</h2> 
 
@@ -60,3 +62,4 @@ The things I changed however, did each have a relatively minimal effect.
 The changes I made were in ‘i suffix’, ‘i-1 suffix’, and ‘i+1 suffix’. Additionally, I changed word[-3:] to word[-4:] and in 'i-1 tag+i word', I changed context[i] to context[i-1].
 I did try going further, replacing the -3 in word[-3:] with a positive number, commenting out certain features, and replacing the other indices which were unchanged in my final version.
 However, these changes either has a much larger negative effect on the accuracy or simply did work and returned an index error.  
+These changes can be found in the taggerchanged.py file.
