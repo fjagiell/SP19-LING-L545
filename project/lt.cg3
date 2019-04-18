@@ -49,7 +49,7 @@ SECTION
 
 REMOVE:r1 MASC + $$CASE IF (1C FEM + $$CASE) ; 
 REMOVE:r2 FEM IF (1C MASC) ; 
-# had bad rating REMOVE:r3 CCONJ IF (-1 PUNCT) ; #maybe a bad rule that should go baznyciomis_V1#22
+# had bad ratingREMOVE:r3 CCONJ IF (-1 PUNCT) ; #maybe a bad rule that should go baznyciomis_V1#22
 REMOVE:r4 PART IF (-1 NOMINAL) ;
 REMOVE:r5 PART IF (1C ADJ) ; 
 REMOVE:r6 SING IF (-1C PLUR) (-1C $$GENDER) (0 $$GENDER) ; 
