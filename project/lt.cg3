@@ -1,3 +1,4 @@
+#accuracy percentages are given based on dev data
 DELIMITERS="." ;
 
 SETS
@@ -33,34 +34,43 @@ LIST NUMBER = NUM ;
 LIST vienas = "vienas" ;
 LIST GEO = NameType=Geo ;
 LIST ADP = ADP ;
+LIST POSI = Polarity=Pos ;
 LIST NEG = Polarity=Neg ;
 LIST PRS = PronType=Prs ;
 LIST INF = VerbForm=Inf ;
 LIST AUX = AUX ;
 LIST VERBAL = VERB AUX ;
+LIST MOD = ADJ ADV ;
+LIST PRON = PRON ;
+LIST NEG = Polarity=Neg ;
+LIST FIRST = Person=1 ;
+LIST SECOND = Person=2 ;
+LIST THIRD = Person=3 ;
+
 
 SET CASE = NOM | INS | GEN | ACC ; 
 SET PLURALITY = SING | PLUR ;
 SET GENDER = MASC | FEM | NEUT ;
 SET NUM = SING | PLUR ;
 SET COORD = ADJ | ADV | NOMINAL | VERB ;
+SET PERS = FIRST | SECOND |  THIRD ;
 
 SECTION
 
 REMOVE:r1 MASC + $$CASE IF (1C FEM + $$CASE) ; 
-REMOVE:r2 FEM IF (1C MASC) ; 
+REMOVE:r2 FEM IF (1C MASC) ; #78% accurate
 # had bad ratingREMOVE:r3 CCONJ IF (-1 PUNCT) ; #maybe a bad rule that should go baznyciomis_V1#22
 REMOVE:r4 PART IF (-1 NOMINAL) ;
 REMOVE:r5 PART IF (1C ADJ) ; 
-REMOVE:r6 SING IF (-1C PLUR) (-1C $$GENDER) (0 $$GENDER) ; 
-REMOVE:r7 PLUR IF (-1C SING) (-1C $$GENDER) (0 $$GENDER) ;
+REMOVE:r6 SING IF (-1C PLUR) (-1C $$GENDER) (0 $$GENDER) ; #81%
+REMOVE:r7 PLUR IF (-1C SING) (-1C $$GENDER) (0 $$GENDER) ; #77.5%
 REMOVE:r8 CCONJ IF (-1 >>>) ;
-REMOVE:r9 PART IF (-1C PART) ;
+REMOVE:r9 PART IF (-1C PART) ; #just over 50% accurate
 REMOVE:r10 CCONJ IF (-1C CCONJ) ;
 REMOVE:r10a CCONJ IF (1C CCONJ) ;
-REMOVE:r11 ADV IF (1C NOMINAL) ;
+REMOVE:r11 ADV IF (1C NOMINAL) ; #80%
 REMOVE:r12 SCONJ IF (-1C SCONJ) ;
-REMOVE:r13 $$PLURALITY IF (NOT *-1 $$PLURALITY) (-1C PUNCT) ; #"<nėra>" AMvadovu_V1-s12
+REMOVE:r13 $$PLURALITY IF (NOT *-1 $$PLURALITY) (-1C PUNCT) ; #"<nėra>" AMvadovu_V1-s12 84%
 REMOVE:r14a FEM IF (NOT *-1 FEM) (NOT *1 FEM) ; #biudzetas_V1-s24 "tai"
 REMOVE:r14 MASC IF (NOT *-1 MASC) (NOT *1 MASC) ; #balandzio_V1-s19 ju, feminine word turned out to be in sentence but leave rule anyway
 REMOVE:r15 VERB IF (1C VERB) ; #baznyciomis_V1-s2 "<kuria>"
@@ -68,6 +78,15 @@ REMOVE:r15 VERB IF (1C VERB) ; #baznyciomis_V1-s2 "<kuria>"
 "<Jos>" REMOVE:r16a NOM IF (1C NOUN) ; #baznyciomis_V1-s16
 REMOVE:r17 PART IF (1 NUMBER) (2 NOMINAL) ; #baznyciomis_V1-s7
 REMOVE:r18 PART IF (-1 ADP) ; #baznyciomis_V1-s11 beveik
+REMOVE:r19 SING IF (0 VERB)(NOT *-1C NOMINAL) (NOT *1C NOMINAL) ; #biudzetas_V1-s37
+REMOVE:r20 PLUR IF (0 VERB)(NOT *-1C NOMINAL) (NOT *1C NOMINAL) ; #biudzetas_V1-s37
+REMOVE:r21 CCONJ IF (1C PUNCT) ; #biudzetas_V1-s39 89% accurate
+REMOVE:r22 ACC IF (0 VERB) ; #annotation error I would think? 100% accurate
+REMOVE:r23 PART IF (1 VERB) ; #biudzetas_V1-s47 91%
+REMOVE:r24 CCONJ IF (-1C SCONJ) ; #biudzetas_V1-s50
+
+
+
 
 SELECT:s1 DET + $$CASE IF (1C NOUN + $$CASE) ; # select case of following noun for det
 SELECT:s1a GEN IF (1 NOMINATIVE) (NOT *-1C VERB); #baznyciomis_V1-s24 added not verb after biudzetas_V1-s18
@@ -77,20 +96,20 @@ SELECT:s4a GEN IF (-1C ADP) ;
 #SELECT:s4 SING IF (-1C SING) ;
 SELECT:s5 PART IF (-1 VERB) (-2 >>>) ;
 #not good resulsSELECT:s6 SING IF (NOT 0 PLUR) ; #"<nėra>" AMvadovu_V1-s12 maybe remove due to baznyciomis_V1-s26
-SELECT:s7 X IF (0 ABR) ; #SMKK AMvadovu_V1-s8
-SELECT:s8 $$PLURALITY IF (-1C $$PLURALITY) (1C $$PLURALITY) ; #nustatys AMvadovu_V1-s9
+SELECT:s7 X IF (0 ABR) ; #SMKK AMvadovu_V1-s8 83% accurate
+SELECT:s8 $$PLURALITY IF (-1C $$PLURALITY) (1C $$PLURALITY) ; #nustatys AMvadovu_V1-s9 90%
 # SELECT:s9 IND IF (0 NUM); #number auto indefinite makes incorrect for AMvadovu_V1-s14
-SELECT:s10 $$PLURALITY IF (0C VERB) (*-1 NOM + $$PLURALITY) ; #nustatys AMvadovu_V1-s16
+SELECT:s10 $$PLURALITY IF (0C VERB) (*-1 NOM + $$PLURALITY) ; #nustatys AMvadovu_V1-s16 80% accurate
 "<Europos>" SELECT:s11 GEO ;
 SELECT:s11 NOMINATIVE IF (-1 GEN) (NOT 1 NOMINAL) ; #baznycia balandzio_V1-s6
-SELECT:s12 NOMINATIVE IF (*1C VERB BARRIER PUNCT) ; #du balandzio_V1-s14
-SELECT:s13 $$GENDER IF (1 PUNCT) (2 $$GENDER) ; #balandzio_V1-s19 ju
+#SELECT:s12 NOMINATIVE IF (*1C VERB BARRIER PUNCT) ; #du balandzio_V1-s14 59% accurate
+SELECT:s13 $$GENDER IF (1 PUNCT) (2 $$GENDER) ; #balandzio_V1-s19 ju 75%
 SELECT:s14 NOMINAL + GEN IF (*-1 VERB + NEG) ; #PracGramofLith page 45 negative genitive obj added nominal after biudzetas_V1-s25 i ADP
 SELECT:s15 GEN IF (1C NOUN + ACC) (0 NOUN); #baznyciomis_V1-s11 vienuolijos
 SELECT:s16 NOM IF (-1C >>>) (1C PUNCT) ; #baznyciomis_V1-s15 bazncia
-"<ir>" SELECT:s17 PART IF (-1 ADV) (1 VERB) ; #baznyciomis_V1-s18
-"<jie>" SELECT:s18 PRS IF (1C VERB) (0 NOM) ; #baznyciomis_V1-s19 jie
-SELECT:s19 SCONJ IF (-1 PUNCT) (1 NOMINAL) ; # ''s22 kad
+#"<ir>" SELECT:s17 PART IF (-1 ADV) (1 VERB) ; #baznyciomis_V1-s18 0 correct, 1 incorrect
+"<jie>" SELECT:s18 PRS IF (1C VERB) (0 NOM) ; #baznyciomis_V1-s19 jie 100%
+SELECT:s19 SCONJ IF (-1 PUNCT) (1 NOMINAL) ; # ''s22 kad 98%
 SELECT:s20 SCONJ IF (-1 PUNCT) (1 ADV) ;#earlier sentence vadovu6?
 SELECT:s20a SCONJ IF (-1 PUNCT) (1 ADP) ;#kad biudzetas s5
 SELECT:s21 INF IF (-1C VERB) ;
@@ -98,9 +117,37 @@ SELECT:s22 SCONJ IF (-1 >>>) (1 NOMINAL) ; # biudzetas s3 kad
 SELECT:s23 SCONJ IF (-1 >>>) (1 ADV) ;#       ''
 SELECT:s23a SCONJ IF (-1 >>>) (1 ADP) ;#biudzetas s5 kad
 "<yra>" SELECT:s24 $$PLURALITY IF (1* VERB + $$PLURALITY BARRIER PUNCT) ; #biudzetas_V1-s3 buti
-SELECT:s25 VERBAL + $$PLURALITY IF (1 NOMINATIVE + $$PLURALITY); #biudzetas_V1-s18 "<kyla>"
+SELECT:s25 VERBAL + $$PLURALITY IF (1 NOMINATIVE + $$PLURALITY); #biudzetas_V1-s18 "<kyla>" 93.4% accurate
 SELECT:s26 PLUR IF (-1 NUMBER) (NOT -1 vienas) ; #biudzetas_V1-s26 "<pusės>"
 SELECT:s26a SING IF (-1 vienas) ;
 SELECT:s27 NUMBER + $$GENDER IF (1 NOMINAL + $$GENDER) ; #biudzetas_V1-s26 "<pusės>"
-SELECT:s28 NUMBER + NOMINATIVE IF (1 PUNCT) ; #"<du>" biudzetas_V1-s29
-"<ir>" SELECT:s29 CCONJ IF (-1 $$COORD) (1 $$COORD) ; #biudzetas_V1-s30
+#SELECT:s28 NUMBER + NOMINATIVE IF (1 PUNCT) ; #"<du>" biudzetas_V1-s29 50% accurate
+"<ir>" SELECT:s29 CCONJ IF (-1 $$COORD) (1 $$COORD) ; #biudzetas_V1-s30 85%
+SELECT:s30 CCONJ IF (-1 MOD) (1 MOD) ; #biudzetas_V1-s33
+SELECT:s31 CCONJ IF (-1 NOMINAL) (1 NOMINAL) ; #attempt to create noun version of s30
+SELECT:s32 ACC IF (0 ADP) (-1 ACC) ; #biudzetas_V1-s34
+SELECT:s33 ABR IF (0 X) ; #biudzetas_V1-s34
+SELECT:s34 SCONJ IF (-1 PUNCT) ; #biudzetas_V1-s34 93.75%
+SELECT:s35 NOMINAL IF (1 VERB) (NOT 0 ADV) ; #biudzetas_V1-s34 80% accurate updated to NOT 0 ADV at biudzetas_V1-s47
+#SELECT:s36 CCONJ IF (-1 PUNCT) ; #biudzetas_V1-s36 72% accurate affects recall and f-score a lot but brings down precision slighly
+SELECT:s37 DET IF (NOT *1C NOMINAL) ; #biudzetas_V1-s37 87.5% accurate
+# not good enough SELECT:s38 PART IF (-1 PUNCT) (1 ADV) ; #biudzetas_V1-s47 tai
+"<kam>" SELECT:s39 ADV IF (1C VERB) (2C ADV) ; #biudzetas_V1-s47
+# too inaccurate 50% SELECT:s40a $$PLURALITY IF (0C VERB) (*-1C NOM + $$PLURALITY) ; #biudzetas_V1-s49 turejo
+#  too inaccurate 71% SELECT:s40b $$PLURALITY IF (0C VERB) (*1C NOM + $$PLURALITY) ; #biudzetas_V1-s49 turejo
+SELECT:s41 THIRD IF (-1C NOM) (-1C NOUN) ; #biudzetas_V1-s50 turi
+SELECT:s42 $$PLURALITY IF (-1 CONJ) (1 NOMINAL + $$PLURALITY) ; #biudzetas_V1-s54 84%
+SELECT:s43 ADV IF (0 PART) (-1 CONJ) (1 PUNCT) ; #biudzetas_V1-s55 taip
+SELECT:s44 AUX IF (-1C VERB) ; #biudzetas_V1-s56 buti 100%
+SELECT:s45 NOUN IF (-1C CCONJ) (-2C NOUN) ; #biudzetas_V1-s56 bendro
+"<tai>" SELECT:s46 PART IF (-1C PUNCT) (1C ADV) ; #biudzetas_V1-s58 75%
+SELECT:s47 ACC IF (*1C NOMINAL + ACC BARRIER PUNCT) ; #biudzetas_V1-s3 "<į>" when only for that word 100% accurate, when for all instances, 93.7% accurate
+SELECT:s48 ACC IF (0C ADP) (-1C VERB + POSI) ; #biudzetas_V1-s64 77%
+SELECT:s49 $$CASE IF (1C CCONJ) (2C $$CASE) ; #biudzetas_V1-s65 "tos"
+SELECT:s50 CCONJ IF (1C $$POS) (-1C $$POS) ; #biudzetas_V1-s65 "ar"
+SELECT:s51 SCONJ IF (-1 CCONJ) (1 VERB) ; #biudzetas_V1-s63 "kaip" 75% 4 instances
+SELECT:s52 $$PLURALITY IF (0 $$CASE) (1C $$CASE + $$PLURALITY) ; #daugiabuciu_V1-s12 "valstybes" 75%
+SELECT:s53 $$GENDER IF (0C VERB) (1C NOUN + $$GENDER) ; #daugiabuciu_V1-s12 "skirtu" 75%
+SELECT:s54 THIRD IF (0C VERB) (1C NOUN) ; #daugiabuciu_V1-s17 "turi"
+SELECT:s55 CCONJ IF (-2 NOMINAL) (-1 ADJ) (1 NOMINAL) ; #daugiabuciu_V1-s20 ar 100% for one instance
+SELECT:s56 $$GENDER IF (0 ADJ) (1 CCONJ) (2 ADJ + $$GENDER) ; #daugiabuciu_V1-s20 visumeniniu
