@@ -1,4 +1,4 @@
-#accuracy percentages are given based on dev data
+#percentages are given based on dev data
 DELIMITERS="." ;
 
 SETS
@@ -80,8 +80,8 @@ REMOVE:r17 PART IF (1 NUMBER) (2 NOMINAL) ; #baznyciomis_V1-s7
 REMOVE:r18 PART IF (-1 ADP) ; #baznyciomis_V1-s11 beveik
 REMOVE:r19 SING IF (0 VERB)(NOT *-1C NOMINAL) (NOT *1C NOMINAL) ; #biudzetas_V1-s37
 REMOVE:r20 PLUR IF (0 VERB)(NOT *-1C NOMINAL) (NOT *1C NOMINAL) ; #biudzetas_V1-s37
-REMOVE:r21 CCONJ IF (1C PUNCT) ; #biudzetas_V1-s39 89% accurate
-REMOVE:r22 ACC IF (0 VERB) ; #annotation error I would think? 100% accurate
+REMOVE:r21 CCONJ IF (1C PUNCT) ; #biudzetas_V1-s39 89% 
+REMOVE:r22 ACC IF (0 VERB) ; # 100%
 REMOVE:r23 PART IF (1 VERB) ; #biudzetas_V1-s47 91%
 REMOVE:r24 CCONJ IF (-1C SCONJ) ; #biudzetas_V1-s50
 
@@ -96,13 +96,13 @@ SELECT:s4a GEN IF (-1C ADP) ;
 #SELECT:s4 SING IF (-1C SING) ;
 SELECT:s5 PART IF (-1 VERB) (-2 >>>) ;
 #not good resulsSELECT:s6 SING IF (NOT 0 PLUR) ; #"<nėra>" AMvadovu_V1-s12 maybe remove due to baznyciomis_V1-s26
-SELECT:s7 X IF (0 ABR) ; #SMKK AMvadovu_V1-s8 83% accurate
+SELECT:s7 X IF (0 ABR) ; #SMKK AMvadovu_V1-s8 83% 
 SELECT:s8 $$PLURALITY IF (-1C $$PLURALITY) (1C $$PLURALITY) ; #nustatys AMvadovu_V1-s9 90%
 # SELECT:s9 IND IF (0 NUM); #number auto indefinite makes incorrect for AMvadovu_V1-s14
-SELECT:s10 $$PLURALITY IF (0C VERB) (*-1 NOM + $$PLURALITY) ; #nustatys AMvadovu_V1-s16 80% accurate
+SELECT:s10 $$PLURALITY IF (0C VERB) (*-1 NOM + $$PLURALITY) ; #nustatys AMvadovu_V1-s16 80% 
 "<Europos>" SELECT:s11 GEO ;
 SELECT:s11 NOMINATIVE IF (-1 GEN) (NOT 1 NOMINAL) ; #baznycia balandzio_V1-s6
-#SELECT:s12 NOMINATIVE IF (*1C VERB BARRIER PUNCT) ; #du balandzio_V1-s14 59% accurate
+#SELECT:s12 NOMINATIVE IF (*1C VERB BARRIER PUNCT) ; #du balandzio_V1-s14 59% 
 SELECT:s13 $$GENDER IF (1 PUNCT) (2 $$GENDER) ; #balandzio_V1-s19 ju 75%
 SELECT:s14 NOMINAL + GEN IF (*-1 VERB + NEG) ; #PracGramofLith page 45 negative genitive obj added nominal after biudzetas_V1-s25 i ADP
 SELECT:s15 GEN IF (1C NOUN + ACC) (0 NOUN); #baznyciomis_V1-s11 vienuolijos
@@ -117,20 +117,20 @@ SELECT:s22 SCONJ IF (-1 >>>) (1 NOMINAL) ; # biudzetas s3 kad
 SELECT:s23 SCONJ IF (-1 >>>) (1 ADV) ;#       ''
 SELECT:s23a SCONJ IF (-1 >>>) (1 ADP) ;#biudzetas s5 kad
 "<yra>" SELECT:s24 $$PLURALITY IF (1* VERB + $$PLURALITY BARRIER PUNCT) ; #biudzetas_V1-s3 buti
-SELECT:s25 VERBAL + $$PLURALITY IF (1 NOMINATIVE + $$PLURALITY); #biudzetas_V1-s18 "<kyla>" 93.4% accurate
+SELECT:s25 VERBAL + $$PLURALITY IF (1 NOMINATIVE + $$PLURALITY); #biudzetas_V1-s18 "<kyla>" 93.4% 
 SELECT:s26 PLUR IF (-1 NUMBER) (NOT -1 vienas) ; #biudzetas_V1-s26 "<pusės>"
 SELECT:s26a SING IF (-1 vienas) ;
 SELECT:s27 NUMBER + $$GENDER IF (1 NOMINAL + $$GENDER) ; #biudzetas_V1-s26 "<pusės>"
-#SELECT:s28 NUMBER + NOMINATIVE IF (1 PUNCT) ; #"<du>" biudzetas_V1-s29 50% accurate
+#SELECT:s28 NUMBER + NOMINATIVE IF (1 PUNCT) ; #"<du>" biudzetas_V1-s29 50% 
 "<ir>" SELECT:s29 CCONJ IF (-1 $$COORD) (1 $$COORD) ; #biudzetas_V1-s30 85%
 SELECT:s30 CCONJ IF (-1 MOD) (1 MOD) ; #biudzetas_V1-s33
 SELECT:s31 CCONJ IF (-1 NOMINAL) (1 NOMINAL) ; #attempt to create noun version of s30
 SELECT:s32 ACC IF (0 ADP) (-1 ACC) ; #biudzetas_V1-s34
 SELECT:s33 ABR IF (0 X) ; #biudzetas_V1-s34
 SELECT:s34 SCONJ IF (-1 PUNCT) ; #biudzetas_V1-s34 93.75%
-SELECT:s35 NOMINAL IF (1 VERB) (NOT 0 ADV) ; #biudzetas_V1-s34 80% accurate updated to NOT 0 ADV at biudzetas_V1-s47
-#SELECT:s36 CCONJ IF (-1 PUNCT) ; #biudzetas_V1-s36 72% accurate affects recall and f-score a lot but brings down precision slighly
-SELECT:s37 DET IF (NOT *1C NOMINAL) ; #biudzetas_V1-s37 87.5% accurate
+SELECT:s35 NOMINAL IF (1 VERB) (NOT 0 ADV) ; #biudzetas_V1-s34 80% updated to NOT 0 ADV at biudzetas_V1-s47
+#SELECT:s36 CCONJ IF (-1 PUNCT) ; #biudzetas_V1-s36 72% affects recall and f-score a lot but brings down precision slighly
+SELECT:s37 DET IF (NOT *1C NOMINAL) ; #biudzetas_V1-s37 87.5%
 # not good enough SELECT:s38 PART IF (-1 PUNCT) (1 ADV) ; #biudzetas_V1-s47 tai
 "<kam>" SELECT:s39 ADV IF (1C VERB) (2C ADV) ; #biudzetas_V1-s47
 # too inaccurate 50% SELECT:s40a $$PLURALITY IF (0C VERB) (*-1C NOM + $$PLURALITY) ; #biudzetas_V1-s49 turejo
